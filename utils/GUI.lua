@@ -6,7 +6,7 @@ local noclipEnabled = false
 
 
 
-function GUI.Init(modules)
+function GUI:Init(modules)
     -- GUI
     local gui = Instance.new("ScreenGui")
     gui.Parent = player:WaitForChild("PlayerGui")
@@ -301,3 +301,4 @@ function GUI.Init(modules)
 end
 
 return GUI
+

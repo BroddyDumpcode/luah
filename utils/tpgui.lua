@@ -71,7 +71,7 @@ function guiTp:Enable()
     top.BackgroundColor3 = Color3.fromRGB(35,35,35)
     top.BorderSizePixel = 0
     top.ZIndex = 2
-    Instance.new("UICorner", top).CornerRadius = UDim.new(0,12)
+    --Instance.new("UICorner", top).CornerRadius = UDim.new(0,12)
     
     local padding = Instance.new("UIPadding")
     padding.PaddingTop = UDim.new(0,4)
@@ -203,13 +203,16 @@ function guiTp:Enable()
         Instance.new("UICorner", btn)
         btn.RichText = true
         local function UpdateBtn()
-
+            local sizeValue = getSize(pler)
+            if type(sizeValue) ~= "number" then
+                    sizeValue = 0
+            end
             btn.Text = string.format(
                 '<b>%d.</b> %s <font color="rgb(170,170,170)">| %s</font>|<b> %s</b>',
                 i,
                 pler.DisplayName,
                 pler.Name,
-                parseScore(getSize(pler))
+                parseScore(sizeValue)
                 )
         end
         btn.MouseButton1Click:Connect(function()
@@ -227,12 +230,6 @@ function guiTp:Enable()
 
     end
     refreshPlayerList()
-    task.spawn(function()
-        while tpGui and tpGui.Parent do
-            refreshPlayerList()
-            task.wait(1)
-        end
-    end)
     PepetBtn.MouseButton1Click:Connect(function()
         followEnabled = not followEnabled
         if followEnabled then
@@ -269,4 +266,5 @@ function guiTp:Enable()
     ]]
     
 end
+
 return guiTp

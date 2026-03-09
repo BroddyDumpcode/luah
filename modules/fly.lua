@@ -73,37 +73,42 @@ function fly:Disable()
     if bg then bg:Destroy() end
 end
 
--- Input handling
-UserInputService.InputBegan:Connect(function(input, gp)
-    if gp then return end
-    if input.UserInputType == Enum.UserInputType.Touch then return end
+local flyDragging = false
+local dragging = false
 
-    if input.KeyCode == Enum.KeyCode.W then control.f = 1 end
-    if input.KeyCode == Enum.KeyCode.S then control.b = -1 end
-    if input.KeyCode == Enum.KeyCode.A then control.l = -1 end
-    if input.KeyCode == Enum.KeyCode.D then control.r = 1 end
-    if input.KeyCode == Enum.KeyCode.Space then control.u = 1 end
-    if input.KeyCode == Enum.KeyCode.LeftShift then control.d = -1 end
+-- slider knob events
+knob.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        flyDragging = true
+    end
 end)
 
-UserInputService.InputEnded:Connect(function(input, gp)
-    if gp then return end
-    if input.UserInputType == Enum.UserInputType.Touch then return end
-
-    if input.KeyCode == Enum.KeyCode.W then control.f = 0 end
-    if input.KeyCode == Enum.KeyCode.S then control.b = 0 end
-    if input.KeyCode == Enum.KeyCode.A then control.l = 0 end
-    if input.KeyCode == Enum.KeyCode.D then control.r = 0 end
-    if input.KeyCode == Enum.KeyCode.Space then control.u = 0 end
-    if input.KeyCode == Enum.KeyCode.LeftShift then control.d = 0 end
-end)
-
--- Touch-safe movement for Android
-UserInputService.TouchMoved:Connect(function(input)
-    if not flying then return end
-    local delta = input.Delta
-    control.f = delta.Y < 0 and 1 or delta.Y > 0 and -1 or 0
-    control.r = delta.X > 0 and 1 or delta.X < 0 and -1 or 0
-end)
+UserInputService.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = false
+            flyDragging = false
+        end
+    end)
+    
+    -- RenderStepped fly
+    flyConnection = RunService.RenderStepped:Connect(function()
+        if flyDragging then return end -- skip fly saat slider digeser
+    
+        if not flying then return end
+        local hrp = getHRP()
+        if not hrp then return end
+    
+        local move = Vector3.new(control.l + control.r, control.u + control.d, control.f + control.b)
+        local camCF = cam.CFrame
+    
+        bv.Velocity = camCF.LookVector * move.Z * speed +
+                      camCF.RightVector * move.X * speed +
+                      Vector3.new(0, move.Y * speed, 0)
+        if move.Magnitude > 0 then
+            bg.CFrame = CFrame.new(hrp.Position, hrp.Position + camCF.LookVector)
+        end
+    end)
 
 return fly
+

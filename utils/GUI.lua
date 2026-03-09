@@ -217,34 +217,6 @@ function GUI:Init(modules)
     flySlider.OnDraggingChanged = function(isDragging)
         modules.ngapung.isSliderDragging = isDragging
     end
-    if flyConnection then
-        flyConnection:Disconnect()
-        flyConnection = nil
-    end
-    
-    flyConnection = RunService.RenderStepped:Connect(function()
-        -- skip fly movement kalau slider sedang digeser
-        if speedSlider.IsDragging() or flySlider.IsDragging() then
-            return
-        end
-    
-        local hrp = modules.ngapung.getHRP() -- pastikan ada function getHRP() di fly module
-        if not hrp then return end
-    
-        local camCF = workspace.CurrentCamera.CFrame
-        local moveDir = Vector3.new(
-            modules.ngapung.control.l + modules.ngapung.control.r,
-            modules.ngapung.control.u + modules.ngapung.control.d,
-            modules.ngapung.control.f + modules.ngapung.control.b
-        )
-    
-        modules.ngapung.bv.Velocity =
-            camCF.LookVector * moveDir.Z * modules.ngapung.speed +
-            camCF.RightVector * moveDir.X * modules.ngapung.speed +
-            Vector3.new(0, moveDir.Y * modules.ngapung.speed, 0)
-    
-        modules.ngapung.bg.CFrame = camCF
-    end)
     local flyBtn = makeBtn(content, "FLY OFF", 170, function(button)
         if button.Text == "FLY OFF" then
             button.Text = "FLY ON"
@@ -316,6 +288,7 @@ function GUI:Init(modules)
 end
 
 return GUI
+
 
 
 

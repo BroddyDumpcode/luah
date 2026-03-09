@@ -228,10 +228,10 @@ function GUI:Init(modules)
         modules.ngabret:setSpeed(value)
     end)
     createSlider(content, 40, 16, 100, 16, "Fly Speed", function(value)
-        modules.ngapung:setSpeed = value
+        modules.ngapung:setSpeed(value)
     end)
     local flyBtn = makeBtn(content, "FLY OFF", 170, function(button)
-        if button.text == "FLY OFF" then
+        if button.Text == "FLY OFF" then
             button.Text = "FLY ON"
             button.BackgroundColor3 = Color3.fromRGB(0,170,0)
             modules.ngapung:Enable()
@@ -301,6 +301,7 @@ function GUI:Init(modules)
 end
 
 return GUI
+
 
 
 

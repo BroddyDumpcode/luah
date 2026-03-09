@@ -33,11 +33,12 @@ RunService.Heartbeat:Connect(function()
         hum.WalkSpeed = currentSpeed
     end
 end)
-function ngabret.setSpeed(value)
+function ngabret:setSpeed(value)
     currentSpeed = value
 end
-function ngabret.Enable()
+function ngabret:Enable()
     enabled = true
 end
 
 return ngabret
+

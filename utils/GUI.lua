@@ -1,6 +1,8 @@
 -- services
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
 local GUI = {}
 local noclipEnabled = false
 
@@ -301,6 +303,7 @@ function GUI:Init(modules)
 end
 
 return GUI
+
 
 
 

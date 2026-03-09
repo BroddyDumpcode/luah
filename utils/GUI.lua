@@ -172,7 +172,7 @@ function GUI:Init(modules)
     
         local dragging = false
     
-        -- Ganti nama fungsi biar aman
+        -- fungsi update slider
         local function updateSlider(percent)
             percent = math.clamp(percent, 0, 1)
             fill.Size = UDim2.new(percent, 0, 1, 0)
@@ -184,7 +184,7 @@ function GUI:Init(modules)
             end
         end
     
-        -- Set default
+        -- set default
         local defaultPercent = (defaultValue-minValue)/(maxValue-minValue)
         updateSlider(defaultPercent)
     
@@ -292,6 +292,7 @@ function GUI:Init(modules)
 end
 
 return GUI
+
 
 
 

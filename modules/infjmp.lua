@@ -4,6 +4,7 @@ local UserInputService = game:GetService("UserInputService")
 local player = Players.LocalPlayer
 --tools variqabel
 local infJump = false
+local jumpConnect
 local infinity = {}
 
 function infinity:Enable()
@@ -24,4 +25,5 @@ function infinity:Enable()
         end
     end
 end
+
 return infinity

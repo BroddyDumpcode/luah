@@ -179,24 +179,6 @@ function GUI:Init(modules)
             title.Text = textLabel .. ": " .. value
             if callback then callback(value) end
         end
-
-                -- setelah createSlider untuk Fly Speed
-        local flyDragging = false
-        
-        knob.InputBegan:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-                flyDragging = true
-            end
-        end)
-        
-        UserInputService.InputEnded:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-                flyDragging = false
-            end
-        end)
-        
-        -- pass ke fly module
-        modules.ngapung.flyDragging = flyDragging
         
         local defaultPercent = (defaultValue - minValue) / (maxValue - minValue)
         update(defaultPercent)
@@ -234,6 +216,22 @@ function GUI:Init(modules)
     createSlider(content, 40, 16, 100, 16, "Fly Speed", function(value)
         modules.ngapung:setSpeed(value)
     end)
+    local flyDragging = false
+        
+    knob.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            flyDragging = true
+        end
+    end)
+        
+    UserInputService.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            flyDragging = false
+        end
+    end)
+        
+        -- pass ke fly module
+    modules.ngapung.flyDragging = flyDragging
     local flyBtn = makeBtn(content, "FLY OFF", 170, function(button)
         if button.Text == "FLY OFF" then
             button.Text = "FLY ON"
@@ -305,6 +303,7 @@ function GUI:Init(modules)
 end
 
 return GUI
+
 
 
 

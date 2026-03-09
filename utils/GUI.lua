@@ -194,21 +194,22 @@ function GUI:Init(modules)
                 dragging = true
             end
         end)
-    
-        knob.InputChanged:Connect(function(input)
+        
+        bar.InputChanged:Connect(function(input)
             if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement 
             or input.UserInputType == Enum.UserInputType.Touch) then
                 local percent = (input.Position.X - bar.AbsolutePosition.X) / bar.AbsoluteSize.X
                 updateSlider(percent)
             end
         end)
-    
-        knob.InputEnded:Connect(function(input)
+        
+        UserInputService.InputEnded:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 
             or input.UserInputType == Enum.UserInputType.Touch then
                 dragging = false
             end
         end)
+
     end
 
 
@@ -292,6 +293,7 @@ function GUI:Init(modules)
 end
 
 return GUI
+
 
 
 

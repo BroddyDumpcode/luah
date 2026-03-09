@@ -272,7 +272,7 @@ function GUI:Init(modules)
         end
     end)
     local tpBtn = makeBtn(content,"TELEPORT TO PLAYERS", 110, function()
-        modules.pepet:Enable()
+        modules.pepet:Init()
     end)
     local frameDrag = makeDraggable(frame)
     local circleDrag = makeDraggable(circle)
@@ -303,6 +303,7 @@ function GUI:Init(modules)
 end
 
 return GUI
+
 
 
 

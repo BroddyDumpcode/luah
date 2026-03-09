@@ -6,6 +6,7 @@ local player = Players.LocalPlayer
 local currentSpeed = 16
 local enabled = false
 local speedConnection
+local charConnection
 
 local ngabret = {}
 
@@ -15,6 +16,7 @@ local function getHumanoid()
 end
 
 local function lockSpeed(hum)
+
     if speedConnection then
         speedConnection:Disconnect()
     end
@@ -24,34 +26,63 @@ local function lockSpeed(hum)
             hum.WalkSpeed = currentSpeed
         end
     end)
+
+end
+
+local function applySpeed()
+
+    local hum = getHumanoid()
+    if not hum then return end
+
+    hum.WalkSpeed = currentSpeed
+    lockSpeed(hum)
+
 end
 
 function ngabret:Enable()
-    enabled = true
 
-    local hum = getHumanoid()
-    if hum then
-        hum.WalkSpeed = currentSpeed
-        lockSpeed(hum)
+    enabled = true
+    applySpeed()
+
+    -- detect respawn / ganti karakter
+    if charConnection then
+        charConnection:Disconnect()
     end
+
+    charConnection = player.CharacterAdded:Connect(function()
+        task.wait(0.5)
+        if enabled then
+            applySpeed()
+        end
+    end)
+
 end
 
 function ngabret:Disable()
+
     enabled = false
 
     if speedConnection then
         speedConnection:Disconnect()
         speedConnection = nil
     end
+
+    if charConnection then
+        charConnection:Disconnect()
+        charConnection = nil
+    end
+
 end
 
 function ngabret:setSpeed(value)
+
     currentSpeed = value
 
     local hum = getHumanoid()
     if hum then
         hum.WalkSpeed = currentSpeed
     end
+
 end
 
 return ngabret

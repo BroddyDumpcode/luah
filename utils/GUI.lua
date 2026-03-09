@@ -71,22 +71,22 @@ function GUI:Init(modules)
     local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
     -- DRAG SYSTEM (WORKS FOR BOTH)
     local function makeDraggable(uiObject)
-
         local dragging = false
         local dragStart
         local startPos
-        local canDrag = false -- DEFAULT: mati
-
+        local canDrag = false
+    
         uiObject.InputBegan:Connect(function(input)
-            if canDrag and input.UserInputType == Enum.UserInputType.MouseButton1 then
+            if not canDrag then return end
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
                 dragging = true
                 dragStart = input.Position
                 startPos = uiObject.Position
             end
         end)
-
+    
         uiObject.InputChanged:Connect(function(input)
-            if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
                 local delta = input.Position - dragStart
                 uiObject.Position = UDim2.new(
                     startPos.X.Scale,
@@ -96,20 +96,16 @@ function GUI:Init(modules)
                 )
             end
         end)
-
+    
         UserInputService.InputEnded:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
                 dragging = false
             end
         end)
-
+    
         return {
-            Enable = function()
-                canDrag = true
-            end,
-            Disable = function()
-                canDrag = false
-            end
+            Enable = function() canDrag = true end,
+            Disable = function() canDrag = false end
         }
     end
     -- DEFINISI TOMBOL
@@ -149,8 +145,7 @@ function GUI:Init(modules)
         container.Size = UDim2.new(0.8, 0, 0, 60)
         container.Position = UDim2.new(0.1, 0, 0, posY)
         container.BackgroundTransparency = 1
-
-        -- TITLE
+    
         local title = Instance.new("TextLabel", container)
         title.Size = UDim2.new(1, 0, 0, 20)
         title.BackgroundTransparency = 1
@@ -158,72 +153,61 @@ function GUI:Init(modules)
         title.Text = textLabel .. ": " .. defaultValue
         title.Font = Enum.Font.Arcade
         title.TextScaled = true
-
-        -- SLIDER BAR
+    
         local sliderFrame = Instance.new("Frame", container)
         sliderFrame.Size = UDim2.new(1, 0, 0, 20)
         sliderFrame.Position = UDim2.new(0, 0, 0, 30)
         sliderFrame.BackgroundColor3 = Color3.fromRGB(50,50,50)
-
-        local sliderCorner = Instance.new("UICorner", sliderFrame)
-        sliderCorner.CornerRadius = UDim.new(0,10)
-
-        -- FILL
+        Instance.new("UICorner", sliderFrame)
+    
         local fill = Instance.new("Frame", sliderFrame)
         fill.BackgroundColor3 = Color3.fromRGB(0,170,255)
-
-        local fillCorner = Instance.new("UICorner", fill)
-        fillCorner.CornerRadius = UDim.new(0,10)
-
-        -- KNOB
+        Instance.new("UICorner", fill)
+    
         local knob = Instance.new("Frame", sliderFrame)
         knob.Size = UDim2.new(0, 18, 0, 18)
         knob.BackgroundColor3 = Color3.fromRGB(255,255,255)
-
-        local knobCorner = Instance.new("UICorner", knob)
-        knobCorner.CornerRadius = UDim.new(1,0)
-
+        Instance.new("UICorner", knob).CornerRadius = UDim.new(1,0)
+    
         local dragging = false
-
-        -- UPDATE FUNCTION
+    
         local function update(percent)
             percent = math.clamp(percent, 0, 1)
-
             fill.Size = UDim2.new(percent, 0, 1, 0)
             knob.Position = UDim2.new(percent, -9, 0.5, -9)
-
             local value = math.floor(minValue + (maxValue - minValue) * percent)
             title.Text = textLabel .. ": " .. value
-
-            if callback then
-                callback(value)
-            end
+            if callback then callback(value) end
         end
-
-        -- DEFAULT SET
+    
         local defaultPercent = (defaultValue - minValue) / (maxValue - minValue)
         update(defaultPercent)
-
-        -- INPUT
-        knob.InputBegan:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+    
+        -- PC + Touch input
+        local function startDrag(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
                 dragging = true
             end
-        end)
-
-        UserInputService.InputEnded:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        end
+    
+        local function stopDrag(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
                 dragging = false
             end
-        end)
-
-        UserInputService.InputChanged:Connect(function(input)
-            if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        end
+    
+        local function doDrag(input)
+            if dragging then
                 local percent = (input.Position.X - sliderFrame.AbsolutePosition.X) / sliderFrame.AbsoluteSize.X
                 update(percent)
             end
-        end)
-
+        end
+    
+        knob.InputBegan:Connect(startDrag)
+        knob.InputEnded:Connect(stopDrag)
+        UserInputService.InputBegan:Connect(startDrag)
+        UserInputService.InputEnded:Connect(stopDrag)
+        UserInputService.InputChanged:Connect(doDrag)
     end
     modules.ngabret:Enable()
     createSlider(content, 60, 16, 100, 16, "Speed", function(value)
@@ -303,6 +287,7 @@ function GUI:Init(modules)
 end
 
 return GUI
+
 
 
 

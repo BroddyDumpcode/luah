@@ -1,6 +1,8 @@
+repeat task.wait() until game:IsLoaded()
 local repo = "https://raw.githubusercontent.com/BroddyDumpcode/luah/main/"
+
 local GUI = loadstring(game:HttpGet(repo.."utils/GUI.lua"))()
-print(game:HttpGet(repo.."utils/GUI.lua"))
+
 local modules = {
     ngapung = loadstring(game:HttpGet(repo.."modules/fly.lua"))(),
     ngabret = loadstring(game:HttpGet(repo.."modules/ngabret.lua"))(),
@@ -13,6 +15,5 @@ local modules = {
 print("feature has been loaded...")
 print("ngabret:", modules.ngabret)
 print("setSpeed:", modules.ngabret and modules.ngabret.setSpeed)
---GUI:Init(modules)
 
-
+GUI:Init(modules)

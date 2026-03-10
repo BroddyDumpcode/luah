@@ -29,8 +29,8 @@ function GUI:Init(modules)
     header.BackgroundColor3 = Color3.fromRGB(45,45,45)
     -- CONTENT FRANE
     local content = Instance.new("Frame", frame)
-    content.Size = UDim2.new(1,0,1, -50) -- kasih offset bawah supaya button keliatan
-    content.Position = UDim2.new(0,0,0,10)
+    content.Position = UDim2.new(0,0,0,40)
+    content.Size = UDim2.new(1,0,1,-40)
     content.BackgroundTransparency = 1
     --UILISTLAYOUT
     local layout = Instance.new("UIListLayout", content)
@@ -38,6 +38,10 @@ function GUI:Init(modules)
     layout.SortOrder = Enum.SortOrder.LayoutOrder
     layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
     layout.VerticalAlignment = Enum.VerticalAlignment.Top
+    -- PADDING
+    local padding = Instance.new("UIPadding", content)
+    padding.PaddingTop = UDim.new(0,10)
+    padding.PaddingBottom = UDim.new(0,10)
     -- TITLE
     local title = Instance.new("TextLabel", header)
     title.Size = UDim2.new(1, -40, 1, 0)
@@ -281,6 +285,7 @@ function GUI:Init(modules)
 end
 
 return GUI
+
 
 
 

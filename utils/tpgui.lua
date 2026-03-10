@@ -74,7 +74,7 @@ function guiTp:Enable()
     title.BackgroundTransparency = 1
     title.TextSize = 13
     title.TextColor3 = Color3.new(1,1,1)
-    title.Text = "TELEPORT OFF"
+    title.Text = "TELEPORT PLAYERS"
     title.Font = Enum.Font.Arcade
     title.TextXAlignment = Enum.TextXAlignment.Left
     --close bttn
@@ -169,7 +169,7 @@ function guiTp:Enable()
             btn.BorderSizePixel = 0
             btn.TextXAlignment = Enum.TextXAlignment.Left
             btn.TextSize = 13
-            btn.Font = Enum.Font.Arcade
+            btn.Font = Enum.Font.SourceSans
             btn.Parent = list
             Instance.new("UICorner", btn)
             btn.RichText = true
@@ -221,6 +221,7 @@ function guiTp:Enable()
     end)
 end
 return guiTp
+
 
 
 

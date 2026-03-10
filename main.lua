@@ -1,6 +1,5 @@
 local repo = "https://raw.githubusercontent.com/BroddyDumpcode/luah/main/"
 local GUI = loadstring(game:HttpGet(repo.."utils/GUI.lua"))()
-
 local modules = {
     ngapung = loadstring(game:HttpGet(repo.."modules/fly.lua"))(),
     ngabret = loadstring(game:HttpGet(repo.."modules/ngabret.lua"))(),
@@ -10,4 +9,7 @@ local modules = {
     pepet = loadstring(game:HttpGet(repo.."utils/tpgui.lua"))()
 }
 print("feature has been loaded...")
-GUI:Init(modules)
+print("ngabret:", modules.ngabret)
+print("setSpeed:", modules.ngabret and modules.ngabret.setSpeed)
+--GUI:Init(modules)
+

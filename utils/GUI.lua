@@ -266,6 +266,8 @@ function GUI:Init(modules)
                 button.Text = "FLY OFF"
                 button.BackgroundColor3 = Color3.fromRGB(170,0,0)
                 modules.ngapung:Disable()
+            end
+    end)
     makeBtn(content, "NOCLIP OFF", function(button)
         noclipEnabled = not noclipEnabled
         modules.nclip:Enable(noclipEnabled)
@@ -327,6 +329,7 @@ function GUI:Init(modules)
 end
 
 return GUI
+
 
 
 

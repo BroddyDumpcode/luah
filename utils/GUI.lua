@@ -7,7 +7,7 @@ local player = Players.LocalPlayer
 local GUI = {}
 local noclipEnabled = false
 
-
+print("GUI START")
 
 function GUI:Init(modules)
     -- GUI
@@ -246,14 +246,12 @@ function GUI:Init(modules)
     
     modules.ngabret:Enable()
     createSlider(content, 16, 100, 16, "Speed", function(value)
-        print("Speed slider:", value)
         if modules.ngabret and typeof(modules.ngabret.setSpeed) == "function" then
             modules.ngabret:setSpeed(value)
         end
     end)
     
     createSlider(content, 16, 100, 16, "Fly Speed", function(value)
-        print("Fly slider:", value) -- debug
         if modules.ngapung and typeof(modules.ngapung.setSpeed) == "function" then
             modules.ngapung:setSpeed(value)
         end
@@ -321,6 +319,7 @@ function GUI:Init(modules)
 end
 
 return GUI
+
 
 
 

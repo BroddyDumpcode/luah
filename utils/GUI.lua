@@ -165,7 +165,7 @@ function GUI:Init(modules)
         sliderLabel.Size = UDim2.new(1, 0, 0, 25)
         sliderLabel.BackgroundTransparency = 1
         sliderLabel.TextColor3 = Color3.new(1,1,1)
-        sliderLabel.Font = Enum.Font.Gotham
+        sliderLabel.Font = Enum.Font.Arcade
         sliderLabel.Text = labelText..": "..defaultValue
     
         local sliderBar = Instance.new("Frame", sliderFrame)
@@ -325,4 +325,3 @@ function GUI:Init(modules)
     end)
 end
 return GUI
-

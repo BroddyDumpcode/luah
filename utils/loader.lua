@@ -1,6 +1,7 @@
 local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
 local Loading = {}
+local sound
 local gui
 local bar
 function Loading:Init()
@@ -34,6 +35,10 @@ function Loading:Init()
     loadingText.Text = "Loading..."
     loadingText.TextColor3 = Color3.fromRGB(200,200,200)
     loadingText.TextScaled = true
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://876939830"
+    sound.Volume = 0.7
+    sound.Parent = gui
     local barBg = Instance.new("Frame", panel)
     barBg.Size = UDim2.new(0.8,0,0,8)
     barBg.Position = UDim2.new(0.1,0,0.75,0)
@@ -43,6 +48,7 @@ function Loading:Init()
     bar.Size = UDim2.new(0,0,1,0)
     bar.BackgroundColor3 = Color3.fromRGB(0,255,180)
     Instance.new("UICorner", bar)
+    sound:Play()
 
 end
 
@@ -54,9 +60,13 @@ function Loading:SetProgress(percent)
 
 end
 function Loading:Destroy()
+    if sound then
+        sound:Stop()
+    end
     if gui then
         gui:Destroy()
     end
 
 end
+
 return Loading

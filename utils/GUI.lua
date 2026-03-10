@@ -6,10 +6,9 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local GUI = {}
 local noclipEnabled = false
-
-print("GUI START")
-
+print("currently preparing the feature"
 function GUI:Init(modules)
+    task.wait(0.2)
     -- GUI
     local gui = Instance.new("ScreenGui")
     gui.Parent = player:WaitForChild("PlayerGui")
@@ -244,7 +243,9 @@ function GUI:Init(modules)
         return sliderFrame
     end
     
-    modules.ngabret:Enable()
+    if modules.ngabret then
+        modules.ngabret:Enable()
+    end
     createSlider(content, 16, 100, 16, "Speed", function(value)
         if modules.ngabret and typeof(modules.ngabret.setSpeed) == "function" then
             modules.ngabret:setSpeed(value)
@@ -329,6 +330,7 @@ function GUI:Init(modules)
 end
 
 return GUI
+
 
 
 

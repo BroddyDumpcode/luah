@@ -1,6 +1,6 @@
 repeat task.wait() until game:IsLoaded()
 local repo = "https://raw.githubusercontent.com/BroddyDumpcode/luah/main/"
-local loader = loadstring(game:HttpGet(repo.."utils/loading.lua"))()
+local loader = loadstring(game:HttpGet(repo.."utils/loader.lua"))()
 loader:Init()
 loader:SetProgress(0.2)
 local GUI = loadstring(game:HttpGet(repo.."utils/GUI.lua"))()
@@ -21,6 +21,7 @@ print("setSpeed:", modules.ngabret and modules.ngabret.setSpeed)
 task.wait(0.5)
 loadingGui:Destroy()
 GUI:Init(modules)
+
 
 
 

@@ -8,7 +8,6 @@ local GUI = {}
 local noclipEnabled = false
 print("currently preparing the feature"
 function GUI:Init(modules)
-    task.wait(0.2)
     -- GUI
     local gui = Instance.new("ScreenGui")
     gui.Parent = player:WaitForChild("PlayerGui")
@@ -330,3 +329,4 @@ function GUI:Init(modules)
 end
 
 return GUI
+
